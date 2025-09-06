@@ -1,0 +1,116 @@
+/**
+
+    `group`  - an array of indicators (stats) to be monitored.
+    `stat`   - a property of a `state`/`indicators` object (a piece of information to display).
+    `units`  - measurement unit, overrides global setting. optional - if none provided, global will be used. [excessive?]
+    `alerts` - an event, triggered by stat change. color event fires every interval, while sound alarm does so once.
+
+    Here `value` is a De facto placeholder, the real one comes from 8111.
+  Thus both `units` and `value` are optional.
+
+*/
+
+{
+  // for now: 5 groups, docked at the 4 corners + center (reserved?)
+  "groups": [
+    // first group, left-bottom
+    {
+      "header": "VERTICAL",
+      "position": 0,
+      "stats": [
+        {
+          "name": "ALT",
+          "units": "ft",
+          // "value": 1052,
+          "alerts": [
+            {
+              "value": "> 18000",
+              "units": "ft",
+              "dependsOn": {
+                "name": "Climb-rate",
+                "value": "> 10",
+                "units": "ft/min"
+              },
+              "sound": "~/Music/t-hud/AI/check-con.mp3"
+            }
+          ]
+        },
+        {
+          "name": "RALT",
+          // "value": 988,
+          "alerts": [
+            {
+              "value": "< 1000",
+              "units": "ft",
+              "color": "yellow"
+            },
+            {
+              "value": "< 1000",
+              "units": "ft",
+              "dependsOn": {
+                "name": "Climb-rate",
+                "value": "< 10",
+                "units": "ft/min"
+              },
+              "sound": "~/Music/t-hud/F-16/altitude.mp3",
+              "color": "orange"
+            },
+            {
+              "value": "< 500",
+              "units": "ft/min",
+              "color": "red"
+            },
+            {
+              "value": "< 500",
+              "dependsOn": {
+                "name": "Climb-rate",
+                "value": "< 10",
+                "units": "ft/min"
+              },
+              "sound": "~/Music/t-hud/F-16/pull-up.mp3",
+              "repeat": 1,
+              "color": "red",
+              "flashInterval": 500
+            }
+          ]
+        },
+        {
+          "name": "Climb-rate"
+          // "value": 452,
+        }
+      ]
+    },
+
+    // second group, left-top
+    {
+      "header": "SPEED",
+      "position": 1,
+      "stats": [
+        {
+          "name": "IAS",
+          // "value": 365,
+          "units": "kt"
+        },
+        {
+          "name": "TAS",
+          // "value": 400,
+          "units": "kt"
+        },
+        {
+          "name": "Mach"
+          // "value": 0.6
+        },
+        {
+          "name": "Crt.spd",
+          // "value": 58,
+          "units": "%"
+        },
+        {
+          "name": "Acc",
+          // "value": -15,
+          "units": "ft/s^2"
+        }
+      ]
+    }
+  ]
+}
