@@ -1,12 +1,13 @@
-// import { tap } from 'npm:rxjs';
-// import { config$ } from './service/config.service.ts';
+import { tap } from 'npm:rxjs';
+
+import { state$ } from './service/api/state.service.ts';
 
 export function start(): void {
-  // config$
-  //   .pipe(
-  //     tap((config) => {
-  //       console.log('config:', config);
-  //     }),
-  //   )
-  //   .subscribe();
+  state$
+    .pipe(
+      tap((state) => {
+        console.log('state:', state);
+      }),
+    )
+    .subscribe();
 }

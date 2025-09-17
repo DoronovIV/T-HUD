@@ -1,4 +1,4 @@
-import { debounceTime, filter, from, map, type Observable } from 'npm:rxjs';
+import { debounceTime, filter, from, map, type Observable, startWith } from 'npm:rxjs';
 
 export function parseJsonFileSync<T>(path: string): T {
   // biome-ignore lint/correctness/noUndeclaredVariables: Deno - static deno namespace
@@ -16,5 +16,6 @@ export function fileContents$<T>(path: string): Observable<T> {
     map(() => {
       return parseJsonFileSync<T>(path);
     }),
+    startWith(parseJsonFileSync<T>(path)),
   );
 }
