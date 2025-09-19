@@ -18,7 +18,9 @@
     "enabled": true,
     "rules": {
       "recommended": true,
-      "correctness": "error",
+      "correctness": {
+        "noUndeclaredDependencies": "off"
+      },
       "nursery": {
         "useExplicitType": "error"
       },

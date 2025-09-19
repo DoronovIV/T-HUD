@@ -29,5 +29,6 @@ export type State = {
   /** max fuel? */
   Mfuel10: Stat;
 
-  engines: PropEngine[] | JetEngine[];
+  propEngines: PropEngine[];
+  jetEngines: JetEngine[];
 };
