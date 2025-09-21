@@ -8,7 +8,7 @@ export const Paths = {
   Root,
   Config: `${Root}/config.jsonc`,
   Test: `${Root}/.test`,
-  ErrorLog: `${Root}/error-log.txt`,
+  FileLog: `${Root}/error-log.txt`,
 };
 
 export const TestEngine = {

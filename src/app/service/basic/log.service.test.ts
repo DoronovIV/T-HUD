@@ -5,11 +5,11 @@ import { fileLog } from './log.service.ts';
 
 Deno.test('Should create error file if it does not exist', () => {
   try {
-    Deno.remove(Paths.ErrorLog);
+    Deno.remove(Paths.FileLog);
   } finally {
     fileLog('test 1');
 
-    const text = Deno.readTextFileSync(Paths.ErrorLog);
+    const text = Deno.readTextFileSync(Paths.FileLog);
     const includes = text.includes('test 1');
 
     expect(includes).toEqual(true);
@@ -31,7 +31,7 @@ Deno.test('Should put error into the log file', () => {
   } finally {
     fileLog(thirdErrorObj);
 
-    const fileContents = Deno.readTextFileSync(Paths.ErrorLog);
+    const fileContents = Deno.readTextFileSync(Paths.FileLog);
 
     const firstErrorWritten = fileContents.includes(testErrorMessage);
     const secondErrorWritten = fileContents.includes('test 2');
@@ -45,15 +45,15 @@ Deno.test('Should put error into the log file', () => {
 
 Deno.test('Should clear file with more than 10 KB size', () => {
   try {
-    Deno.remove(Paths.ErrorLog);
+    Deno.remove(Paths.FileLog);
   } finally {
     const buffer = Buffer.alloc(10260);
 
-    Deno.writeFileSync(Paths.ErrorLog, buffer);
+    Deno.writeFileSync(Paths.FileLog, buffer);
 
     fileLog('test 3');
 
-    const { size } = Deno.lstatSync(Paths.ErrorLog);
+    const { size } = Deno.lstatSync(Paths.FileLog);
 
     expect(size).toEqual(8);
   }

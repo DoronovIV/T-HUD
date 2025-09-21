@@ -11,11 +11,9 @@ export function consoleLog(...args: unknown[]): void {
   console.log(...args);
 }
 
-/** Put whatever passed (likely error) into the log file */
-export function fileLog(error: unknown): void {
-  console.error('Error emerged. See log.txt');
-
-  const logFilePath = `${Paths.ErrorLog}`;
+/** Put whatever passed into the log file as string */
+export function fileLog(input: unknown): void {
+  const logFilePath = `${Paths.FileLog}`;
 
   let append = true;
 
@@ -26,6 +24,6 @@ export function fileLog(error: unknown): void {
   } catch (error: unknown) {
     append = error instanceof Deno.errors.NotFound;
   } finally {
-    Deno.writeTextFileSync(logFilePath, `${String(error)}\n\n`, { append });
+    Deno.writeTextFileSync(logFilePath, `${String(input)}\n\n`, { append });
   }
 }
