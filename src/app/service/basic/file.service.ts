@@ -1,3 +1,4 @@
+import { parse } from 'npm:jsonc-parser';
 import {
   distinctUntilChanged,
   filter,
@@ -9,8 +10,9 @@ import {
 } from 'npm:rxjs';
 import { equal } from '../../const.ts';
 import { fileLog } from './log.service.ts';
+
 export function parseJsonFileSync<T>(path: string): T {
-  return JSON.parse(Deno.readTextFileSync(path)) as T;
+  return parse(Deno.readTextFileSync(path)) as T;
 }
 
 export function fileContents$<T>(path: string): Observable<T> {

@@ -70,7 +70,7 @@ Deno.test('Should react to each file edit', async () => {
 
   timeoutIds.push(
     setTimeout(() => {
-      Deno.writeTextFileSync(testDataPath, JSON.stringify(engine3));
+      Deno.writeTextFileSync(testDataPath, `${JSON.stringify(engine3)}\n/* comment */`);
     }, 30),
   );
 
