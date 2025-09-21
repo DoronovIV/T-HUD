@@ -1,5 +1,15 @@
-export const ConfigFolder = `${Deno.env.get('HOME')}/.config/t-hud`;
-export const TestFolder = `${ConfigFolder}/.test`;
+import { deepStrictEqual } from 'node:assert';
+
+const Home: string | undefined = Deno.env.get('HOME');
+const Root = `${Home}/.config/t-hud`;
+
+// biome-ignore lint/nursery/useExplicitType: Biome cannot infer type for some reason
+export const Paths = {
+  Root,
+  Config: `${Root}/config.jsonc`,
+  Test: `${Root}/.test`,
+  ErrorLog: `${Root}/error-log.txt`,
+};
 
 export const TestEngine = {
   valid: true,
@@ -35,3 +45,13 @@ export const TestEngine = {
   'thrust 2, kgs': 256,
   'efficiency 2, %': 1,
 };
+
+export function equal(first: unknown, second: unknown): boolean {
+  try {
+    deepStrictEqual(first, second);
+
+    return true;
+  } catch {
+    return false;
+  }
+}

@@ -38,7 +38,6 @@ export function parseEngines(input: object): { props: PropEngine[]; jets: JetEng
 }
 
 export function parseEngineStat(name: string, value: number | boolean): Stat | null {
-  // the problem is here
   if (!name.match(/(.*\s)*\d+.*/)) {
     return null;
   }

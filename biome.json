@@ -19,7 +19,8 @@
     "rules": {
       "recommended": true,
       "correctness": {
-        "noUndeclaredDependencies": "off"
+        "noUndeclaredDependencies": "off",
+        "noUnusedImports": "error"
       },
       "nursery": {
         "useExplicitType": "error"
