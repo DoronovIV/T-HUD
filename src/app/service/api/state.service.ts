@@ -2,7 +2,7 @@ import { from, interval, map, type Observable, switchMap } from 'npm:rxjs';
 import type { State } from '../../model/api/state/state.type.ts';
 import { config$ } from '../config.service.ts';
 
-import { parseState } from '../parsing/state.ts';
+import { parseState } from '../parsing/state.parser.ts';
 
 export const state$: Observable<State | null> = config$.pipe(
   switchMap((config) => {

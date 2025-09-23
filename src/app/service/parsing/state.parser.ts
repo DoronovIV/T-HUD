@@ -1,8 +1,8 @@
 import type { State } from '../../model/api/state/state.type.ts';
 import type { Stat } from '../../model/stat.type.ts';
-import { log } from '../basic/log.service.ts';
+import { fileLog } from '../basic/log.service.ts';
 
-import { parseEngines } from './engine.ts';
+import { parseEngines } from './engine.parser.ts';
 
 export function parseState(input: object): State | null {
   const container = {};
@@ -38,7 +38,7 @@ export function parseState(input: object): State | null {
 
     return container as State;
   } catch (error: unknown) {
-    log('error:', error);
+    fileLog(error);
 
     return null;
   }
