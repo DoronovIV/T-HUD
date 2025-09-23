@@ -1,12 +1,15 @@
 {
   "tasks": {
     "start": "deno run -A --watch main.ts",
-    "format": "biome check --write src"
+    "format": "biome check --write src",
+    "test": "deno test -A"
   },
   "imports": {
     "@biomejs/biome": "npm:@biomejs/biome@^2.2.2",
     "@std/assert": "jsr:@std/assert@1",
+    "@std/expect": "jsr:@std/expect@^1.0.17",
     "@types/node": "npm:@types/node@^24.3.1",
+    "jsonc-parser": "npm:jsonc-parser@^3.3.1",
     "rxjs": "npm:rxjs@^7.8.2"
   }
 }

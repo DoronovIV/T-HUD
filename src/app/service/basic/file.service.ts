@@ -1,21 +1,53 @@
-import { debounceTime, filter, from, map, type Observable, startWith } from 'npm:rxjs';
+import { parse } from 'npm:jsonc-parser';
+import {
+  distinctUntilChanged,
+  filter,
+  from,
+  map,
+  Observable,
+  shareReplay,
+  startWith,
+} from 'npm:rxjs';
+import { equal } from '../../const.ts';
+import { fileLog } from './log.service.ts';
 
 export function parseJsonFileSync<T>(path: string): T {
-  // biome-ignore lint/correctness/noUndeclaredVariables: Deno - static deno namespace
-  return JSON.parse(Deno.readTextFileSync(path)) as T;
+  return parse(Deno.readTextFileSync(path)) as T;
 }
 
 export function fileContents$<T>(path: string): Observable<T> {
-  // biome-ignore lint/correctness/noUndeclaredVariables: Deno - static deno namespace
-  return from(Deno.watchFs(path)).pipe(
-    filter((event) => {
-      return event.kind === 'modify';
-    }),
-    // most editors emit several events when saving file
-    debounceTime(100),
-    map(() => {
-      return parseJsonFileSync<T>(path);
-    }),
-    startWith(parseJsonFileSync<T>(path)),
-  );
+  return new Observable<T>((subscriber) => {
+    const isFile = Deno.statSync(path).isFile;
+    const dir = path.split('/').slice(0, -1).join('/');
+
+    const watcher = Deno.watchFs(dir);
+
+    if (!isFile) {
+      fileLog('Error: fileContents$ - directory passed instead of file.');
+    }
+
+    const subscription = from(watcher)
+      .pipe(
+        filter((event) => {
+          return event.paths.at(0) === path;
+        }),
+        filter((event) => {
+          return event.kind === 'modify';
+        }),
+        map(() => {
+          return parseJsonFileSync<T>(path);
+        }),
+        distinctUntilChanged((prev, current) => {
+          return equal(prev, current);
+        }),
+        startWith(parseJsonFileSync<T>(path)),
+        shareReplay(1),
+      )
+      .subscribe(subscriber);
+
+    return () => {
+      subscription.unsubscribe();
+      watcher.close();
+    };
+  });
 }
