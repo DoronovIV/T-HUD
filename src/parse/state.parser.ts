@@ -1,6 +1,6 @@
-import type { State } from '../../model/api/state/state.type.ts';
-import type { Stat } from '../../model/stat.type.ts';
-import { fileLog } from '../basic/log.service.ts';
+import type { State } from '../core/model/api/state.type.ts';
+import type { Stat } from '../core/model/stat.type.ts';
+import { fileLog } from '../core/service/log.service.ts';
 
 import { parseEngines } from './engine.parser.ts';
 

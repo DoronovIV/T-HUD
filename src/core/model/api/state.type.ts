@@ -1,4 +1,4 @@
-import type { Stat } from '../../stat.type.ts';
+import type { Stat } from '../stat.type.ts';
 import type { JetEngine } from './jet-engine.type.ts';
 import type { PropEngine } from './prop-engine.type.ts';
 

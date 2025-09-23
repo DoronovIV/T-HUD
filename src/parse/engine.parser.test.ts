@@ -1,5 +1,5 @@
 import { expect } from 'jsr:@std/expect';
-import { TestEngine } from '../../const.ts';
+import { TestEngine } from '../const.ts';
 import { isPropEngine, parseEngineStat, parseEngines } from './engine.parser.ts';
 
 Deno.test('Should parse engine', () => {

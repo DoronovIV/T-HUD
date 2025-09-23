@@ -1,7 +1,7 @@
 import { tap } from 'npm:rxjs';
 import { expect } from '@std/expect/expect';
 import { Paths, TestEngine } from '../../const.ts';
-import { fileContents$, parseJsonFileSync } from './file.service.ts';
+import { fileContents$, parseJsonFileSync } from '../../core/service/file.service.ts';
 
 const testDataPath = `${Paths.Test}/.data.jsonc`;
 

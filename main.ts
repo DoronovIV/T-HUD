@@ -1,3 +1,3 @@
-import { start } from './src/app/app.ts';
+import { start } from './src/app.ts';
 
 start();
