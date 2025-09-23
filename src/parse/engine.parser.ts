@@ -1,6 +1,6 @@
-import type { JetEngine } from '../../model/api/state/jet-engine.type.ts';
-import type { PropEngine } from '../../model/api/state/prop-engine.type.ts';
-import type { Stat } from '../../model/stat.type.ts';
+import type { JetEngine } from '../core/model/api/jet-engine.type.ts';
+import type { PropEngine } from '../core/model/api/prop-engine.type.ts';
+import type { Stat } from '../core/model/stat.type.ts';
 
 export function parseEngines(input: object): { props: PropEngine[]; jets: JetEngine[] } {
   const stringInput = JSON.stringify(input);

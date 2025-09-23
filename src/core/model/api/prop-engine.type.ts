@@ -1,4 +1,4 @@
-import type { Stat } from '../../stat.type.ts';
+import type { Stat } from '../stat.type.ts';
 
 export type PropEngine = {
   index: number;
