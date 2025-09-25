@@ -2,17 +2,17 @@ import { tap } from 'npm:rxjs';
 import { expect } from '@std/expect/expect';
 import { Paths } from '../../const.ts';
 import { fileContents$, parseJsonFileSync } from '../../core/service/file.service.ts';
-import { State } from '../../mock.ts';
+import { MockState } from '../../mock.ts';
 
 const testDataPath = `${Paths.Test}/.data.jsonc`;
 
 const timeoutIds: number[] = [];
 
 // biome-ignore lint/suspicious/noExplicitAny: Unit testing
-const MockState: any = State.Props.B29A;
+const mockState: any = MockState.Props.B29A;
 
 function resetDataFile(): void {
-  Deno.writeTextFile(testDataPath, JSON.stringify(MockState));
+  Deno.writeTextFile(testDataPath, JSON.stringify(mockState));
 }
 
 Deno.test('Should parse json file contents', () => {
@@ -50,14 +50,13 @@ Deno.test('Should react to each file edit', async () => {
     )
     .subscribe();
 
-  // These will trigger synchronous file system events
-  const engine1 = { ...MockState };
+  const engine1 = { ...mockState };
   engine1['aileron, %'] = 1;
 
-  const engine2 = { ...MockState };
+  const engine2 = { ...mockState };
   engine2['throttle 1, %'] = 2;
 
-  const engine3 = { ...MockState };
+  const engine3 = { ...mockState };
   engine3['RPM throttle 1, %'] = 3;
 
   timeoutIds.push(

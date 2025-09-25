@@ -1,4 +1,4 @@
-export const State = {
+export const MockState = {
   Props: {
     /** US rank 4 regular */
     B29A: {
@@ -945,7 +945,7 @@ export const State = {
   },
 };
 
-export const Indicators: object = {
+export const MockIndicators: object = {
   Props: {
     BV238_test_flight: {
       valid: true,
