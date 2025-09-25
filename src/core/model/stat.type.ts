@@ -1,6 +1,5 @@
-/** a value that has it's units and may have multiple names */
+/** Unit type may be expanded at some point */
 export type Stat = {
-  name: string;
   value: number | boolean;
   units?: string;
 };

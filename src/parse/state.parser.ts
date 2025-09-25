@@ -3,6 +3,7 @@ import type { PropEngine } from '../core/model/api/prop-engine.type.ts';
 import type { State } from '../core/model/api/state.type.ts';
 import type { Stat } from '../core/model/stat.type.ts';
 import { fileLog } from '../core/service/log.service.ts';
+import { addProperties, addProperty } from './util.ts';
 
 export function parseState(state: object): State | null {
   const result = {};
@@ -12,11 +13,11 @@ export function parseState(state: object): State | null {
 
   try {
     Object.entries(state).forEach(([key, value], index, entries) => {
-      const { stat, engineIndex } = parseStat(key, value);
+      const { stat, statName, engineIndex } = parseStat(key, value);
 
       /** not an engine stat */
       if (engineIndex === -1) {
-        Object.defineProperty(result, stat.name, { value: stat, writable: true, enumerable: true });
+        addProperty(result, statName, stat);
 
         return;
       }
@@ -31,35 +32,18 @@ export function parseState(state: object): State | null {
         listToPush.push(currentEngine as PropEngine | JetEngine);
 
         if (isLastEngine) {
-          Object.defineProperty(currentEngine, stat.name, {
-            value: stat,
-            writable: true,
-            enumerable: true,
-          });
+          addProperty(currentEngine, statName, stat);
         }
 
         currentEngine = { index: engineIndex };
       }
 
-      /** add next engine stat */
-      Object.defineProperty(currentEngine, stat.name, {
-        value: stat,
-        writable: true,
-        enumerable: true,
-      });
+      addProperty(currentEngine, statName, stat);
     });
 
-    Object.defineProperties(result, {
-      propEngines: {
-        value: props,
-        writable: true,
-        enumerable: true,
-      },
-      jetEngines: {
-        value: jets,
-        writable: true,
-        enumerable: true,
-      },
+    addProperties(result, {
+      propEngines: props,
+      jetEngines: jets,
     });
 
     return result as State;
@@ -73,16 +57,12 @@ export function parseState(state: object): State | null {
 export function parseStat(
   stringStat: string,
   value: number | boolean,
-): { stat: Stat; engineIndex: number } {
+): { stat: Stat; statName: string; engineIndex: number } {
   const result = { stat: {}, engineIndex: -1 };
   const pieces = stringStat.split(' ');
 
   if (stringStat.includes(',')) {
-    Object.defineProperty(result.stat, 'units', {
-      value: pieces.pop(),
-      writable: true,
-      enumerable: true,
-    });
+    addProperty(result.stat, 'units', pieces.pop());
 
     const index = pieces.findIndex((piece) => {
       return piece.endsWith(',');
@@ -107,20 +87,10 @@ export function parseStat(
     })
     .join('');
 
-  Object.defineProperties(result.stat, {
-    name: {
-      value: statName,
-      writable: true,
-      enumerable: true,
-    },
-    value: {
-      value,
-      writable: true,
-      enumerable: true,
-    },
-  });
+  addProperty(result, 'statName', statName);
+  addProperty(result.stat, 'value', value);
 
-  return result as { stat: Stat; engineIndex: number };
+  return result as { stat: Stat; statName: string; engineIndex: number };
 }
 
 export function isPropEngine(engine: PropEngine | JetEngine | object): boolean {
